@@ -1,8 +1,8 @@
 ### unifi-to-hosts-mapping
 
-Within the UniFi controller you can create an alias for devices as they appear on the network. This script takes the alias entries and their corresponding IP address to maintain an corresponding list of hosts on the PiHole server. This host entry resides in /etc/hosts. 
+Within the UniFi controller you can create an alias for devices as they appear on the network. This script takes the alias entries and their corresponding IP address to maintain a list of hosts on the PiHole server. This host entry resides in /etc/hosts which the PiHole can be configured to use. The end result is the dashboard showing your configured hostname for Top Clients and not just an IP Address. 
 
-Basic workflow is 
+Basic workflow is as follows;
 
 ![Image of PiHole/UniFi Workflow](https://raw.githubusercontent.com/farsonic/unifi-to-hosts-mapping/master/PiHole-WorkFlow.png)
 
