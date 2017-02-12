@@ -10,7 +10,7 @@ Basic workflow is as follows;
 Place script on PiHole server, in my case this is in /home/pi. You will also need to ensure you have the relevant python libraries installed. 
 
 ```
-sudo pip install python-hosts
+sudo pip install python_hosts
 sudo pip install unifi
 sudo pip instlal netaddr
 
