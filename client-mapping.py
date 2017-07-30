@@ -6,6 +6,11 @@ from unifi.controller import Controller
 from python_hosts import Hosts, HostsEntry
 
 
+parser = argparse.ArgumentParser(description = "Fetch list of hosts from unifi controller and place them in a hosts file")
+parser.add_argument('--verbose', action='store_true', help = "print additional information")
+parser.add_argument('--nohosts', action='store_true', help = "don't attempt to write to hosts file")
+args = parser.parse_args()
+
 controllerIP = os.getenv("UNIFI_CONTROLLER")
 if controllerIP is None:
     controllerIP = "localhost"
@@ -49,12 +54,18 @@ for entry in list.items():
       hosts.remove_all_matching(ip)
 
     hosts.add([new_entry])
-    print entry[0],'\t',entry[1]
+    if args.verbose:
+        print entry[0],'\t',entry[1]
 
-try:
-    hosts.write()
-except:
-    print "You need root permissions to write to /etc/hosts - skipping!"
-    sys.exit(1)
+if args.verbose:
+    if args.nohosts:
+        print "--nohosts specified, not attempting to write to hosts file"
+
+if not args.nohosts:
+    try:
+        hosts.write()
+    except:
+        print "You need root permissions to write to /etc/hosts - skipping!"
+        sys.exit(1)
 
 
