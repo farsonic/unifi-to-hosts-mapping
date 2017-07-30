@@ -12,7 +12,7 @@ Place script on PiHole server, in my case this is in /home/pi. You will also nee
 ```
 sudo pip install python_hosts
 sudo pip install unifi
-sudo pip instlal netaddr
+sudo pip install netaddr
 
 ```
 The script will also need to be modified to include the correct details for the IP address, Username and Password of the UniFi Controller. 
