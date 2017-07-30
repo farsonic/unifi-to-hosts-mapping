@@ -28,7 +28,8 @@ hosts = Hosts(path='/etc/hosts')
 
 for client in clients:
     ip = client.get('ip', 'Unknown')
-    name = client.get('name')
+    hostname = client.get('hostname')
+    name = client.get('name', hostname)
     mac = client['mac']
 
     if ip <> "Unknown":
