@@ -7,7 +7,8 @@ from python_hosts import Hosts, HostsEntry
 
 parser = argparse.ArgumentParser(description = "Fetch list of hosts from unifi controller and place them in a hosts file")
 parser.add_argument('-v', '--verbose', action='store_true', help = "print additional information")
-parser.add_argument('-nohosts', action='store_true', help = "don't attempt to write to hosts file")
+parser.add_argument('-nh', '--nohosts', action='store_true', help = "don't attempt to write to hosts file")
+parser.add_argument('-f', '--hostfile', help = "hosts file to use", default = "/etc/hosts")
 parser.add_argument('-c', '--controller', help = "controller IP or hostname")
 parser.add_argument('-u', '--user', help = "username")
 parser.add_argument('-p', '--password', help = "password")
@@ -41,7 +42,10 @@ else:
 c = Controller(controllerIP, userName, password, "8443", "v4", "default")
 clients = c.get_clients()
 list = {}
-hosts = Hosts(path='/etc/hosts')
+
+if args.verbose:
+    print "Using hosts file %s" % args.hostfile
+hosts = Hosts(path=args.hostfile)
 
 for client in clients:
     ip = client.get('ip', 'Unknown')
