@@ -7,12 +7,18 @@ from python_hosts import Hosts, HostsEntry
 
 parser = argparse.ArgumentParser(description = "Fetch list of hosts from unifi controller and place them in a hosts file")
 parser.add_argument('-v', '--verbose', action='store_true', help = "print additional information")
+
 parser.add_argument('-nh', '--nohosts', action='store_true', help = "don't attempt to write to hosts file")
+parser.add_argument('-m', '--mixedcase', action='store_true', help = "do not force all names to lower case")
+
 parser.add_argument('-f', '--hostfile', help = "hosts file to use", default = "/etc/hosts")
 parser.add_argument('-c', '--controller', help = "controller IP or hostname")
 parser.add_argument('-u', '--user', help = "username")
 parser.add_argument('-p', '--password', help = "password")
 args = parser.parse_args()
+
+if args.verbose:
+    print args
 
 if args.controller is not None:
     controllerIP = args.controller
@@ -51,6 +57,8 @@ for client in clients:
     ip = client.get('ip', 'Unknown')
     hostname = client.get('hostname')
     name = client.get('name', hostname)
+    if not args.mixedcase:
+        name = name.lower()
     mac = client['mac']
 
     if ip <> "Unknown":
