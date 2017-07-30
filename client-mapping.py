@@ -5,26 +5,38 @@ from netaddr import *
 from unifi.controller import Controller
 from python_hosts import Hosts, HostsEntry
 
-
 parser = argparse.ArgumentParser(description = "Fetch list of hosts from unifi controller and place them in a hosts file")
-parser.add_argument('--verbose', action='store_true', help = "print additional information")
-parser.add_argument('--nohosts', action='store_true', help = "don't attempt to write to hosts file")
+parser.add_argument('-v', '--verbose', action='store_true', help = "print additional information")
+parser.add_argument('-nohosts', action='store_true', help = "don't attempt to write to hosts file")
+parser.add_argument('-c', '--controller', help = "controller IP or hostname")
+parser.add_argument('-u', '--user', help = "username")
+parser.add_argument('-p', '--password', help = "password")
 args = parser.parse_args()
 
-controllerIP = os.getenv("UNIFI_CONTROLLER")
-if controllerIP is None:
-    controllerIP = "localhost"
-print "Using controller IP %s" % controllerIP
-
-userName = os.getenv("UNIFI_USER")
-if userName is None:
-    userName = raw_input('Username: ')
+if args.controller is not None:
+    controllerIP = args.controller
 else:
+    controllerIP = os.getenv("UNIFI_CONTROLLER")
+    if controllerIP is None:
+        controllerIP = raw_input('Controller: ')
+if args.verbose:
+    print "Using controller IP %s" % controllerIP
+
+if args.user is not None:
+    userName = args.user
+else:
+    userName = os.getenv("UNIFI_USER")
+    if userName is None:
+        userName = raw_input('Username: ')
+if args.verbose:
     print "Using username %s" % userName
 
-password = os.getenv("UNIFI_PASSWORD")
-if password is None:
-    password = raw_input('Password: ')
+if args.password is not None:
+    password = args.password
+else:
+    password = os.getenv("UNIFI_PASSWORD")
+    if password is None:
+        password = raw_input('Password: ')
 
 c = Controller(controllerIP, userName, password, "8443", "v4", "default")
 clients = c.get_clients()
@@ -67,5 +79,3 @@ if not args.nohosts:
     except:
         print "You need root permissions to write to /etc/hosts - skipping!"
         sys.exit(1)
-
-
