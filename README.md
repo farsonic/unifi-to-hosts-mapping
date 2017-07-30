@@ -15,8 +15,7 @@ sudo pip install unifi
 sudo pip install netaddr
 
 ```
-The script requires the controller IP (or hostname), controller username and password to function correctly.  You can specify each of these via a command line parameter, an environment variable, or interactively (in that order of precedence).
-
+The script requires the controller IP (or hostname), controller username and password to function correctly.  You can specify each of these via a command line parameter (`-c`, `-u` and `-p`), an environment variable (`UNIFI_CONTROLLER`, `UNIFI_USER` and `UNIFI_PASSWORD`), or interactively (in that order of precedence).
 
 Create a suitable crontab entry for the root user, it will need to be for the root user as you are modifying the /etc/hosts file. 
 
